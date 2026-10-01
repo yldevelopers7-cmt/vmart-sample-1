@@ -59,6 +59,50 @@ nav.main-nav a:hover{color:var(--amber-dark);}
 .hero .cta-row{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;}
 .promo-mini{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap;}
 .promo-mini span{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:.78rem;font-weight:600;color:var(--green-700);}
+
+/* FEATURED PRODUCT FAN / CARD STACK */
+.hero-offer-stack{min-height:360px;position:relative;display:flex;align-items:center;justify-content:center;overflow:visible;perspective:1200px;}
+.hero-stack-glow{position:absolute;width:82%;height:72%;border-radius:50%;background:rgba(220,233,221,.9);filter:blur(24px);}
+.hero-stack{position:relative;width:min(440px,88%);height:310px;z-index:2;}
+.hero-stack-card{position:absolute;left:50%;top:50%;width:250px;height:285px;border-radius:22px;overflow:hidden;background:#fff;border:1px solid rgba(23,52,39,.10);box-shadow:0 22px 45px rgba(23,52,39,.18);transform-style:preserve-3d;cursor:pointer;user-select:none;transition:transform .55s cubic-bezier(.22,.9,.25,1),opacity .45s ease,filter .45s ease;will-change:transform,opacity;}
+.hero-stack-card.active{box-shadow:0 28px 60px rgba(23,52,39,.24);}
+.hero-stack-card .hsc-image{height:170px;background:linear-gradient(145deg,#f8fbf6,#edf5ee);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.hero-stack-card .hsc-image img{width:100%;height:100%;object-fit:contain;padding:14px;}
+.hero-stack-card .hsc-emoji{font-size:5.4rem;filter:drop-shadow(0 9px 10px rgba(0,0,0,.08));}
+.hero-stack-card .hsc-body{padding:13px 15px;}
+.hero-stack-card .hsc-tag{display:inline-flex;background:#e6f5e9;color:#1f7d3d;border-radius:999px;padding:4px 8px;font-size:.62rem;font-weight:800;margin-bottom:6px;}
+.hero-stack-card .hsc-name{font-weight:800;color:var(--green-900);font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hero-stack-card .hsc-sub{font-size:.68rem;color:var(--muted);margin-top:2px;}
+.hero-stack-card .hsc-price{margin-top:7px;display:flex;align-items:baseline;gap:7px;}
+.hero-stack-card .hsc-price strong{font-size:1rem;color:var(--green-900);}
+.hero-stack-card .hsc-price s{font-size:.68rem;color:#98a29b;}
+.hero-stack-card .hsc-cta{margin-top:8px;font-size:.67rem;font-weight:800;color:#1f7d3d;}
+.hero-stack-arrow{position:absolute;z-index:8;width:38px;height:38px;border-radius:50%;border:1px solid #d9e4db;background:#fff;color:var(--green-900);box-shadow:0 7px 20px rgba(23,52,39,.14);font-size:1.5rem;line-height:1;display:flex;align-items:center;justify-content:center;}
+.hero-stack-arrow:hover{background:#f3f8f3;}
+.hero-stack-prev{left:2%;top:50%;}
+.hero-stack-next{right:2%;top:50%;}
+.hero-stack-dots{position:absolute;z-index:9;bottom:3px;display:flex;gap:6px;left:50%;transform:translateX(-50%);}
+.hero-stack-dot{width:7px;height:7px;border:0;padding:0;border-radius:99px;background:#bfcfc2;transition:all .2s;}
+.hero-stack-dot.active{width:22px;background:var(--green-700);}
+.hero-offer-stack .floating-card{z-index:10;}
+@media(max-width:900px){
+  .hero-offer-stack{min-height:330px;margin-top:-6px;}
+  .hero-stack{height:285px;width:min(420px,92%);}
+  .hero-stack-card{width:220px;height:265px;}
+  .hero-stack-card .hsc-image{height:150px;}
+  .hero-stack-prev{left:0;}
+  .hero-stack-next{right:0;}
+}
+@media(max-width:520px){
+  .hero-offer-stack{min-height:310px;}
+  .hero-stack-card{width:190px;height:245px;}
+  .hero-stack-card .hsc-image{height:135px;}
+  .hero-stack-card .hsc-emoji{font-size:4.3rem;}
+  .hero-stack-card .hsc-body{padding:10px 12px;}
+  .hero-offer-stack .fc-one{right:0!important;top:4px!important;}
+  .hero-offer-stack .fc-two{left:0!important;bottom:8px!important;}
+}
+
 @media(max-width:900px){.hero-grid{grid-template-columns:1fr;} .hero-art{display:none;}}
 
 section{padding:32px 0;}
@@ -330,10 +374,13 @@ section{padding:24px 0;}
         <div class="hero-actions"><button class="btn btn-primary" data-view="products">Shop groceries</button><button class="btn btn-light" data-view="offers">View offers</button></div>
         <div class="hero-trust"><span>✓ Fresh products</span><span>✓ Easy checkout</span><span>✓ Cash on delivery</span></div>
       </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="orb orb-a"></div><div class="orb orb-b"></div>
-        <div class="grocery-bag"><div class="bag-handle"></div><div class="bag-logo">V<br><small>MART</small></div><div class="bag-item item-1">🥬</div><div class="bag-item item-2">🥛</div><div class="bag-item item-3">🍎</div></div>
-        <div class="floating-card fc-one"><b>20% OFF</b><span>Daily essentials</span></div>
+      <div class="hero-visual hero-offer-stack" aria-label="Featured offers">
+        <div class="hero-stack-glow"></div>
+        <div class="hero-stack" id="heroOfferStack"></div>
+        <button class="hero-stack-arrow hero-stack-prev" id="heroStackPrev" type="button" aria-label="Previous featured offer">‹</button>
+        <button class="hero-stack-arrow hero-stack-next" id="heroStackNext" type="button" aria-label="Next featured offer">›</button>
+        <div class="hero-stack-dots" id="heroStackDots"></div>
+        <div class="floating-card fc-one" id="heroOfferBadge"><b>20% OFF</b><span>Featured offer</span></div>
         <div class="floating-card fc-two"><b>₹499+</b><span>Free delivery</span></div>
       </div>
     </div>
@@ -675,10 +722,136 @@ function wireCards(container){
 function refreshAllProductUI(){
   renderHomeRows();
   renderOfferProductSlider();
+  renderHeroOfferStack();
   if(currentView==='products') renderProductsView();
   if(currentView==='wishlist') renderWishlist();
   if(currentView==='offers') renderOffersGrid();
 }
+
+
+/* ===== FEATURED HOME PRODUCT CARD STACK ===== */
+let heroStackTimer = null;
+let heroStackIndex = 0;
+
+function renderHeroOfferStack(){
+  const stack = document.getElementById('heroOfferStack');
+  const dots = document.getElementById('heroStackDots');
+  if(!stack || !dots || typeof PRODUCTS === 'undefined') return;
+
+  const featured = PRODUCTS
+    .filter(p => disc(p) >= 10)
+    .sort((a,b) => disc(b) - disc(a) || b.rating - a.rating)
+    .slice(0, 5);
+
+  if(!featured.length){
+    stack.innerHTML = '';
+    dots.innerHTML = '';
+    return;
+  }
+
+  heroStackIndex = ((heroStackIndex % featured.length) + featured.length) % featured.length;
+
+  stack.innerHTML = featured.map((p,i)=>{
+    const off = ((i - heroStackIndex + featured.length) % featured.length);
+    const signed = off > Math.floor(featured.length/2) ? off-featured.length : off;
+    const abs = Math.abs(signed);
+    const active = signed === 0;
+    const d = disc(p);
+    const x = signed * 92;
+    const rotate = signed * 9;
+    const scale = active ? 1 : (abs===1 ? .93 : .86);
+    const y = active ? -8 : abs * 11;
+    const z = 20 - abs;
+    const opacity = abs > 2 ? .08 : (active ? 1 : .72);
+    const filter = active ? 'none' : 'saturate(.82)';
+    return `<article class="hero-stack-card ${active?'active':''}" data-hero-product="${p.id}"
+      style="transform:translate(-50%,-50%) translateX(${x}px) translateY(${y}px) rotate(${rotate}deg) scale(${scale});z-index:${z};opacity:${opacity};filter:${filter};">
+      <div class="hsc-image">${p.image ? `<img src="${p.image}" alt="${p.name}">` : `<span class="hsc-emoji">${p.icon}</span>`}</div>
+      <div class="hsc-body">
+        <span class="hsc-tag">${d}% OFF</span>
+        <div class="hsc-name">${p.name}</div>
+        <div class="hsc-sub">${p.brand} · ${p.weight}</div>
+        <div class="hsc-price"><strong>${fmt(p.price)}</strong><s>${fmt(p.originalPrice)}</s></div>
+        <div class="hsc-cta">View product →</div>
+      </div>
+    </article>`;
+  }).join('');
+
+  dots.innerHTML = featured.map((p,i)=>
+    `<button class="hero-stack-dot ${i===heroStackIndex?'active':''}" data-hero-dot="${i}" type="button" aria-label="Show ${p.name}"></button>`
+  ).join('');
+
+  stack.querySelectorAll('[data-hero-product]').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      const id = Number(card.dataset.heroProduct);
+      if(card.classList.contains('active')) openProductModal(id);
+      else {
+        heroStackIndex = featured.findIndex(p=>p.id===id);
+        renderHeroOfferStack();
+      }
+    });
+  });
+  dots.querySelectorAll('[data-hero-dot]').forEach(dot=>{
+    dot.addEventListener('click', ()=>{
+      heroStackIndex = Number(dot.dataset.heroDot);
+      renderHeroOfferStack();
+      restartHeroStackTimer();
+    });
+  });
+
+  const current = featured[heroStackIndex];
+  const badge = document.getElementById('heroOfferBadge');
+  if(badge && current){
+    badge.innerHTML = `<b>${disc(current)}% OFF</b><span>${current.name}</span>`;
+  }
+
+  restartHeroStackTimer();
+}
+
+function restartHeroStackTimer(){
+  clearInterval(heroStackTimer);
+  const stack = document.getElementById('heroOfferStack');
+  if(!stack || stack.dataset.paused === 'true') return;
+  heroStackTimer = setInterval(()=>{
+    const cards = document.querySelectorAll('#heroOfferStack [data-hero-product]');
+    if(cards.length < 2) return;
+    heroStackIndex = (heroStackIndex + 1) % cards.length;
+    renderHeroOfferStack();
+  }, 3200);
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.getElementById('heroStackPrev')?.addEventListener('click', ()=>{
+    const cards = document.querySelectorAll('#heroOfferStack [data-hero-product]');
+    if(!cards.length) return;
+    heroStackIndex = (heroStackIndex - 1 + cards.length) % cards.length;
+    renderHeroOfferStack();
+  });
+  document.getElementById('heroStackNext')?.addEventListener('click', ()=>{
+    const cards = document.querySelectorAll('#heroOfferStack [data-hero-product]');
+    if(!cards.length) return;
+    heroStackIndex = (heroStackIndex + 1) % cards.length;
+    renderHeroOfferStack();
+  });
+  const stack = document.getElementById('heroOfferStack');
+  stack?.addEventListener('mouseenter', ()=>{
+    stack.dataset.paused='true';
+    clearInterval(heroStackTimer);
+  });
+  stack?.addEventListener('mouseleave', ()=>{
+    stack.dataset.paused='false';
+    restartHeroStackTimer();
+  });
+  stack?.addEventListener('touchstart', ()=>{
+    stack.dataset.paused='true';
+    clearInterval(heroStackTimer);
+  }, {passive:true});
+  stack?.addEventListener('touchend', ()=>{
+    stack.dataset.paused='false';
+    restartHeroStackTimer();
+  }, {passive:true});
+  renderHeroOfferStack();
+});
 
 function renderHomeRows(){
   const rows={best:PRODUCTS.filter(p=>p.featured), fruits:PRODUCTS.filter(p=>p.category==='fruits'), essentials:PRODUCTS.filter(p=>['atta','rice','oil','pulses'].includes(p.category)), snacks:PRODUCTS.filter(p=>['snacks','beverages'].includes(p.category))};
