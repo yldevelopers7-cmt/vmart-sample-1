@@ -1,1 +1,0 @@
-# vmart-sample-1
