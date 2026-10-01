@@ -171,11 +171,23 @@ select#sortSel{border:1.5px solid var(--line);border-radius:999px;padding:7px 13
 /* about/location/contact reuse */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;}
 @media(max-width:900px){.split{grid-template-columns:1fr;}}
-.location-card{background:var(--green-700);border-radius:var(--r-l);padding:26px;color:#fff;}
+.location-card{background:var(--green-700);border-radius:var(--r-l);padding:26px;color:#fff;overflow:hidden;position:relative;}
 .location-card h2{color:#fff;}
-.map-box{margin-top:14px;border-radius:var(--r-m);background:repeating-linear-gradient(135deg,rgba(255,255,255,.08) 0 12px,rgba(255,255,255,.02) 12px 24px);height:170px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;}
+.location-brand{display:flex;align-items:center;gap:14px;margin-bottom:4px;}
+.location-brand-logo{width:74px;height:48px;border-radius:10px;background:#fff;object-fit:contain;padding:5px;box-shadow:0 8px 22px rgba(0,0,0,.12);}
+.location-brand-copy{min-width:0;}
+.location-brand-copy h2{margin:0;}
+.location-brand-copy .store-label{font-size:.72rem;opacity:.82;margin-top:3px;}
+.map-box{margin-top:18px;border-radius:18px;background:#d9e5da;height:300px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.24);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);}
+.map-box iframe{display:block;width:100%;height:100%;border:0;filter:saturate(.92);}
+.map-overlay-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:74px;height:74px;border-radius:50%;background:#fff;padding:9px;box-shadow:0 10px 26px rgba(23,52,39,.25);border:4px solid rgba(255,255,255,.88);pointer-events:none;}
+.map-overlay-logo img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
+.map-badge{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.96);color:var(--green-900);border-radius:12px;padding:9px 12px;box-shadow:0 7px 18px rgba(0,0,0,.14);font-size:.72rem;font-weight:750;max-width:calc(100% - 28px);}
+.map-badge span{display:block;font-size:.62rem;font-weight:500;color:#647168;margin-top:2px;}
 .loc-row{display:flex;gap:8px;margin-top:10px;font-size:.88rem;opacity:.95;}
 .loc-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+@media(max-width:700px){.map-box{height:240px}.location-card{padding:20px}.location-brand-logo{width:62px;height:42px}.map-overlay-logo{width:64px;height:64px;}}
+
 .field{margin-bottom:12px;}
 .field label{display:block;font-size:.8rem;font-weight:700;margin-bottom:5px;}
 .field input,.field textarea{width:100%;padding:10px 12px;border-radius:var(--r-s);border:1.5px solid var(--line);font-family:inherit;font-size:.88rem;background:var(--paper);}
@@ -441,12 +453,36 @@ section{padding:24px 0;}
 <section>
   <div class="wrap">
     <div class="location-card">
-      <h2>Visit V Mart</h2>
+      <div class="location-brand">
+        <img class="location-brand-logo" src="vmart-logo.png" alt="V Mart logo">
+        <div class="location-brand-copy">
+          <h2>Visit V Mart</h2>
+          <div class="store-label">Your local supermarket</div>
+        </div>
+      </div>
+
       <div class="loc-row">📍 Vishwabharati College Road, Near Busstand, Mallasandra, Tumakuru, Karnataka 572107</div>
       <div class="loc-row">📞 081053 24989 &nbsp;·&nbsp; 🕘 Open · closes around 9:00 PM</div>
-      <div class="map-box">🗺️</div>
+
+      <div class="map-box" aria-label="V Mart store map">
+        <iframe
+          title="V Mart location map"
+          src="https://www.google.com/maps?q=Vishwabharati%20College%20Road%2C%20Near%20Busstand%2C%20Mallasandra%2C%20Tumakuru%2C%20Karnataka%20572107&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
+        <div class="map-overlay-logo" aria-hidden="true">
+          <img src="vmart-logo.png" alt="">
+        </div>
+        <div class="map-badge">
+          V Mart · Mallasandra
+          <span>Vishwabharati College Road, Tumakuru</span>
+        </div>
+      </div>
+
       <div class="loc-actions">
-        <a class="btn" style="background:#fff;color:var(--green-900);" href="https://www.google.com/maps/search/?api=1&query=82P8%2BC4+Tumakuru" target="_blank" rel="noopener">Get Directions</a>
+        <a class="btn" style="background:#fff;color:var(--green-900);" href="https://maps.app.goo.gl/iwbZLUDVBmqjmkmi7?g_st=aw" target="_blank" rel="noopener">Get Directions</a>
         <a class="btn btn-outline" style="border-color:#fff;color:#fff;" href="tel:08105324989">Call Now</a>
       </div>
     </div>
